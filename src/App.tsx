@@ -329,7 +329,7 @@ export default function App() {
                         rel="noreferrer"
                       >
                         <Download size={14} />
-                        <span>npm v1.0.1</span>
+                        <span>npm v1.0.2</span>
                         <ExternalLink size={12} className="opacity-70" />
                       </a>
                     </Button>

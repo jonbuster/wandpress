@@ -3,6 +3,7 @@
 
 ## Package Details
 - npm: wandpress (https://www.npmjs.com/package/wandpress)
+- Official Website: https://wandpress.netlify.app/
 - Repository: https://github.com/jonbuster/wandpress
 - License: MIT
 - Dual bundle: ESM (`dist/wandpress.js`) & CommonJS (`dist/wandpress.cjs`)

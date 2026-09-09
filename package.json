@@ -1,6 +1,6 @@
 {
   "name": "wandpress",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "WordPress admin-inspired React component library and design system",
   "author": "Kanin Rice",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/jonbuster/wandpress.git"
   },
-  "homepage": "https://github.com/jonbuster/wandpress#readme",
+  "homepage": "https://wandpress.netlify.app/",
   "type": "module",
   "main": "./dist/wandpress.cjs",
   "module": "./dist/wandpress.js",
