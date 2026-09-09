@@ -141,6 +141,7 @@ function PaginationDemo() {
 export default function App() {
   const [activeNav, setActiveNav] = useState('dashboard')
   const [commandOpen, setCommandOpen] = useState(false)
+  const [copiedInstall, setCopiedInstall] = useState(false)
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -189,7 +190,15 @@ export default function App() {
             <span>Quick search...</span>
             <kbd className="bg-black/30 px-1 py-0.2 rounded text-[10px] font-mono">⌘K</kbd>
           </button>
-          <TopbarLink href="https://github.com" active={false}>GitHub ↗</TopbarLink>
+          <TopbarLink
+            href="https://github.com/jonbuster/wandpress"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1.5 mr-1"
+          >
+            <Globe size={13} />
+            <span>GitHub ↗</span>
+          </TopbarLink>
         </TopbarRight>
       </Topbar>
 
@@ -280,26 +289,83 @@ export default function App() {
             {/* Welcome Banner */}
             <WelcomeBanner
               heading="Welcome to WandPress!"
-              subheading={<a href="#installation" className="text-white/75 underline">View installation guide →</a>}
+              subheading={
+                <div className="space-y-3 mt-2">
+                  <p className="text-[13px] text-white/80">
+                    A WordPress admin design system for React. Built with Radix UI, Tailwind CSS, and TypeScript.
+                  </p>
+                  <div className="flex flex-wrap items-center gap-3 pt-1">
+                    {/* Copyable npm install command */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText('npm install wandpress')
+                        setCopiedInstall(true)
+                        setTimeout(() => setCopiedInstall(false), 2000)
+                      }}
+                      className="inline-flex items-center gap-2 h-8 px-3 rounded bg-black/40 hover:bg-black/60 border border-white/20 text-white text-[12px] font-mono transition-colors cursor-pointer select-none"
+                      title="Click to copy command"
+                    >
+                      <span className="text-white/40">$</span>
+                      <span className="text-emerald-300 font-medium">npm install wandpress</span>
+                      {copiedInstall ? (
+                        <Check size={13} className="text-emerald-400 ml-1" />
+                      ) : (
+                        <Copy size={13} className="text-white/40 hover:text-white ml-1 transition-colors" />
+                      )}
+                    </button>
+
+                    {/* npmjs button using framework Button component */}
+                    <Button asChild variant="primary" size="default">
+                      <a
+                        href="https://www.npmjs.com/package/wandpress"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Download size={14} />
+                        <span>npm package</span>
+                        <ExternalLink size={12} className="opacity-70" />
+                      </a>
+                    </Button>
+
+                    {/* GitHub repo button using framework Button component */}
+                    <Button asChild variant="secondary" size="default">
+                      <a
+                        href="https://github.com/jonbuster/wandpress"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Globe size={14} />
+                        <span>GitHub Repo</span>
+                        <ExternalLink size={12} className="opacity-70" />
+                      </a>
+                    </Button>
+
+                    <a href="#installation" className="text-[12px] text-white/75 hover:text-white underline ml-1 transition-colors">
+                      Installation Guide →
+                    </a>
+                  </div>
+                </div>
+              }
               onDismiss={() => {}}
               features={[
                 {
-                  icon: <Pen size={18} />,
-                  title: 'Accordion Cards',
-                  description: 'Collapsible panels powered by Radix UI Collapsible — keyboard accessible, animated, zero hacks.',
-                  link: { href: '#card', label: 'See Card docs' },
+                  icon: <Zap size={18} />,
+                  title: 'Install via npm',
+                  description: 'Ready to import in any React or Next.js app with pre-compiled CSS and dual ESM/CJS bundles.',
+                  link: { href: 'https://www.npmjs.com/package/wandpress', label: 'View on npmjs.com ↗' },
                 },
                 {
                   icon: <LayoutDashboard size={18} />,
-                  title: 'Dashboard Layouts',
-                  description: 'Responsive CSS Grid wrappers for building admin dashboards in minutes.',
-                  link: { href: '#dashboard', label: 'See Dashboard docs' },
+                  title: 'Full Admin Templates',
+                  description: 'Production-ready Posts Table with quick-edit and a tabbed Settings Screen interface.',
+                  link: { href: '#templates', label: 'Explore templates' },
                 },
                 {
-                  icon: <Palette size={18} />,
-                  title: 'WP-faithful Theme',
-                  description: 'Exact WordPress admin color palette via CSS variables — override any token to match your brand.',
-                  link: { href: '#theming', label: 'Theming guide' },
+                  icon: <Globe size={18} />,
+                  title: 'Open Source (MIT)',
+                  description: 'Public repository hosted on GitHub. Free for personal and commercial applications.',
+                  link: { href: 'https://github.com/jonbuster/wandpress', label: 'View GitHub repo ↗' },
                 },
               ]}
             />
@@ -1784,21 +1850,38 @@ export default {
 
             {/* ---- Installation ---- */}
             <SectionHeading id="installation">Installation</SectionHeading>
-            <SubHeading>1. Clone or copy the component files</SubHeading>
-            <p className="text-[13px] text-wp-muted mb-3">WandPress follows the shadcn/ui philosophy — you own the component files. Copy them into your project and modify freely.</p>
 
-            <CodeBlock language="bash" code={`# Clone the repo
-git clone https://github.com/yourname/wandpress.git
+            <SubHeading>Option A: Install via npm (Recommended)</SubHeading>
+            <p className="text-[13px] text-wp-muted mb-3">
+              Install the pre-bundled library from the public npm registry:
+            </p>
+            <CodeBlock language="bash" code={`npm install wandpress`} />
+
+            <p className="text-[13px] text-wp-muted mb-3 mt-4">
+              Import the styles and components in your React or Next.js app:
+            </p>
+            <CodeBlock language="tsx" code={`import 'wandpress/wandpress.css'
+import { Button, Card, CardHeader, CardTitle, CardContent, Input, Badge, PostsTableTemplate } from 'wandpress'`} />
+
+            <div className="mt-8 mb-4">
+              <SubHeading>Option B: Clone repository or copy components</SubHeading>
+              <p className="text-[13px] text-wp-muted mb-3">
+                WandPress also follows the shadcn/ui philosophy — you can clone the repository and own the component files directly in your project.
+              </p>
+            </div>
+
+            <CodeBlock language="bash" code={`# Clone the public repo
+git clone https://github.com/jonbuster/wandpress.git
 
 # Or copy just the components you need from
 # src/components/ui/ into your own project`} />
 
-            <SubHeading>2. Install peer dependencies</SubHeading>
+            <SubHeading>Peer dependencies (for Option B)</SubHeading>
             <CodeBlock language="bash" code={`npm install @radix-ui/react-collapsible @radix-ui/react-dialog \\
   @radix-ui/react-slot class-variance-authority \\
   clsx tailwind-merge lucide-react`} />
 
-            <SubHeading>3. Add Tailwind + WandPress colors</SubHeading>
+            <SubHeading>Tailwind configuration (for Option B)</SubHeading>
             <CodeBlock language="tailwind.config.js" code={`// Add to your tailwind.config.js
 colors: {
   wp: {
@@ -2081,7 +2164,29 @@ function MyWidget() {
           {/* Footer */}
           <div className="mt-16 pb-12 text-center text-[12px] text-wp-muted border-t border-wp-border-light pt-6">
             <p className="font-medium text-wp-text">WandPress — WordPress admin-inspired React components</p>
-            <p className="mt-1">Built with Radix UI · Tailwind CSS · TypeScript · Open source under <span className="text-wp-primary font-semibold">MIT License</span></p>
+            <p className="mt-1">
+              Built with Radix UI · Tailwind CSS · TypeScript · Open source under{' '}
+              <span className="text-wp-primary font-semibold">MIT License</span>
+            </p>
+            <div className="mt-3 flex items-center justify-center gap-3 text-[12px]">
+              <a
+                href="https://www.npmjs.com/package/wandpress"
+                target="_blank"
+                rel="noreferrer"
+                className="text-wp-link hover:underline font-medium"
+              >
+                npm package ↗
+              </a>
+              <span className="text-wp-border">·</span>
+              <a
+                href="https://github.com/jonbuster/wandpress"
+                target="_blank"
+                rel="noreferrer"
+                className="text-wp-link hover:underline font-medium"
+              >
+                GitHub Repository ↗
+              </a>
+            </div>
           </div>
 
         </div>

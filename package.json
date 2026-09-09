@@ -1,12 +1,37 @@
 {
-  "name": "wandpress-app",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "wandpress",
+  "version": "1.0.0",
+  "description": "WordPress admin-inspired React component library and design system",
+  "author": "Kanin Rice",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonbuster/wandpress.git"
+  },
+  "homepage": "https://github.com/jonbuster/wandpress#readme",
+  "type": "module",
+  "main": "./dist/wandpress.cjs",
+  "module": "./dist/wandpress.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/wandpress.js",
+      "require": "./dist/wandpress.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./wandpress.css": "./dist/wandpress.css",
+    "./style.css": "./dist/wandpress.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:lib": "vite build --config vite.config.lib.ts",
+    "prepublishOnly": "npm run build:lib",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -44,6 +69,7 @@
     "postcss": "^8.5.28",
     "tailwindcss": "^3.4.19",
     "typescript": "~6.0.2",
-    "vite": "^8.2.2"
+    "vite": "^8.2.2",
+    "vite-plugin-dts": "^5.1.0"
   }
 }

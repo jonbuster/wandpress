@@ -4,14 +4,14 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded text-[13px] font-normal leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wp-primary focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-60 select-none',
+  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded text-[13px] font-normal leading-none cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wp-primary focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-60 select-none no-underline hover:no-underline',
   {
     variants: {
       variant: {
-        primary:   'bg-wp-primary border border-wp-primary text-white hover:bg-wp-primary-hover hover:border-wp-primary-hover',
+        primary:   'bg-wp-primary border border-wp-primary text-white hover:bg-wp-primary-hover hover:border-wp-primary-hover hover:text-white',
         secondary: 'bg-white border border-wp-primary text-wp-primary hover:bg-wp-primary-light hover:border-wp-primary-hover hover:text-wp-primary-hover',
-        danger:    'bg-wp-danger border border-wp-danger text-white hover:bg-red-700 hover:border-red-700',
-        ghost:     'bg-transparent border border-wp-border text-wp-text hover:bg-wp-bg',
+        danger:    'bg-wp-danger border border-wp-danger text-white hover:bg-red-700 hover:border-red-700 hover:text-white',
+        ghost:     'bg-transparent border border-wp-border text-wp-text hover:bg-wp-bg hover:text-wp-text',
         link:      'bg-transparent border-transparent text-wp-link underline hover:text-wp-link-hover px-0',
       },
       size: {

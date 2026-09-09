@@ -2,9 +2,24 @@
 
 > WordPress admin-inspired React component library and design system. Built with **React 18/19**, **TypeScript**, **Tailwind CSS**, and **Radix UI** primitives.
 
+[![npm version](https://img.shields.io/npm/v/wandpress.svg)](https://www.npmjs.com/package/wandpress)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/jonbuster/wandpress?style=social)](https://github.com/jonbuster/wandpress)
 
 WandPress is a comprehensive suite of accessible, copy-pasteable React components faithful to the WordPress administration design language.
+
+---
+
+## 🚀 Quick Install (via npm)
+
+```bash
+npm install wandpress
+```
+
+```tsx
+import { Button, CardAccordion, Select, PostsTableTemplate } from 'wandpress'
+import 'wandpress/wandpress.css'
+```
 
 ---
 
@@ -18,11 +33,11 @@ WandPress is a comprehensive suite of accessible, copy-pasteable React component
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Local Development & Docs
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/wandpress.git
+git clone https://github.com/jonbuster/wandpress.git
 cd wandpress
 
 # Install dependencies
