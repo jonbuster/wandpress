@@ -1,0 +1,352 @@
+# WandPress — LLM Context & Reference Guide (llm.txt)
+> WordPress admin-inspired React component library and design system. Built with React 18/19, TypeScript, Tailwind CSS, and Radix UI.
+
+## Package Details
+- npm: wandpress (https://www.npmjs.com/package/wandpress)
+- Repository: https://github.com/jonbuster/wandpress
+- License: MIT
+- Dual bundle: ESM (`dist/wandpress.js`) & CommonJS (`dist/wandpress.cjs`)
+- Stylesheet: `wandpress/wandpress.css`
+- TypeScript: Full typings included (`dist/index.d.ts`)
+
+---
+
+## Installation & Setup
+
+```bash
+npm install wandpress
+# or
+pnpm add wandpress
+# or
+yarn add wandpress
+# or
+bun add wandpress
+```
+
+In your main entry file or layout (e.g., `main.tsx`, `App.tsx`, `layout.tsx`):
+```tsx
+import 'wandpress/wandpress.css'
+```
+
+---
+
+## Design System Tokens & Color Palette
+
+WandPress faithfully mirrors the WordPress administration color palette:
+
+- `wp-bg`: `#f0f0f1` — Page background
+- `wp-surface`: `#ffffff` — Card / container surface
+- `wp-surface-alt`: `#f6f7f7` — Table headers, panel footers, alternating rows
+- `wp-border`: `#c3c4c7` — Standard borders
+- `wp-border-light`: `#dcdcde` — Sub-dividers, table row separators
+- `wp-text`: `#1d2327` — Primary body text
+- `wp-muted`: `#646970` — Subtitles, hints, timestamps
+- `wp-primary`: `#2271b1` — Core WordPress Blue
+- `wp-primary-hover`: `#135e96` — Hover state for primary buttons and active links
+- `wp-primary-light`: `#d0dff4` — Selected rows, secondary button hover
+- `wp-success`: `#00a32a` (background: `#edfaef`)
+- `wp-warning`: `#dba617` (background: `#fcf9e8`)
+- `wp-danger`: `#d63638` (background: `#fde8e8`)
+- `wp-info`: `#72aee6` (background: `#e5f0fb`)
+- `wp-dark`: `#1d2327` — Hero banner, topbar, and sidebar background
+
+Typography: System UI stack (`-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif`), base font size `13px`.
+
+---
+
+## Component API Reference
+
+All components are imported directly from `'wandpress'`:
+
+### 1. Button
+Variants match official WP button styles. Supports Radix `asChild` to wrap `<a>` links.
+```tsx
+import { Button } from 'wandpress'
+
+// Primary (WordPress Blue)
+<Button variant="primary" size="default" onClick={handleClick}>
+  Save Changes
+</Button>
+
+// Secondary (White with WP blue border)
+<Button variant="secondary" size="sm">
+  Cancel
+</Button>
+
+// Danger (Red action)
+<Button variant="danger">
+  Move to Trash
+</Button>
+
+// Ghost / Link
+<Button variant="ghost">Draft</Button>
+<Button variant="link">Documentation →</Button>
+
+// As link
+<Button asChild variant="primary">
+  <a href="/posts/new">Add New Post</a>
+</Button>
+```
+
+### 2. Badge
+Status badges with rounded pill styling.
+```tsx
+import { Badge } from 'wandpress'
+
+<Badge variant="success">Published</Badge>
+<Badge variant="warning">Pending Review</Badge>
+<Badge variant="danger">Spam</Badge>
+<Badge variant="info">Scheduled</Badge>
+<Badge variant="primary">Admin</Badge>
+<Badge variant="default">Draft</Badge>
+```
+
+### 3. Alert / Notice
+Standard left-bordered WordPress administration notice.
+```tsx
+import { Alert } from 'wandpress'
+
+<Alert variant="success" title="Post Published" dismissible onDismiss={() => {}}>
+  Your post has been published. <a href="#">View post</a>
+</Alert>
+
+// Variants: 'default' | 'success' | 'warning' | 'error' | 'info'
+```
+
+### 4. Cards & CardAccordion
+Panel cards and collapsible WordPress dashboard widgets.
+```tsx
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardAccordion } from 'wandpress'
+
+// Standard Card
+<Card>
+  <CardHeader>
+    <CardTitle>Site Overview</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>Everything is running smoothly on version 6.4.</p>
+  </CardContent>
+  <CardFooter>
+    <span>Updated 5 minutes ago</span>
+  </CardFooter>
+</Card>
+
+// Collapsible WordPress Widget
+<CardAccordion title="At a Glance" defaultOpen>
+  <p>12 Posts, 4 Pages, 1 Comment</p>
+</CardAccordion>
+```
+
+### 5. Dialog (Modal)
+Accessible modal dialog built on Radix UI.
+```tsx
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
+  DialogFooter,
+  Button
+} from 'wandpress'
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="primary">Open Modal</Button>
+  </DialogTrigger>
+  <DialogContent size="default"> {/* 'sm' | 'default' | 'lg' | 'xl' */}
+    <DialogHeader>
+      <DialogTitle>Confirm Action</DialogTitle>
+    </DialogHeader>
+    <DialogBody>
+      <p>Are you sure you want to permanently delete this item?</p>
+    </DialogBody>
+    <DialogFooter>
+      <Button variant="ghost">Cancel</Button>
+      <Button variant="danger">Delete</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+### 6. Sheet / Drawer
+Slide-in drawer panel with smooth entrance and exit animations.
+```tsx
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+  Button
+} from 'wandpress'
+
+<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="secondary">Open Drawer</Button>
+  </SheetTrigger>
+  <SheetContent side="right"> {/* 'right' | 'left' | 'top' | 'bottom' */}
+    <SheetHeader>
+      <SheetTitle>Quick Edit Post</SheetTitle>
+      <SheetDescription>Modify post metadata directly.</SheetDescription>
+    </SheetHeader>
+    <div className="p-4 space-y-3">
+      {/* Form fields */}
+    </div>
+    <SheetFooter>
+      <Button variant="primary">Update</Button>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+```
+
+### 7. Form Controls
+```tsx
+import { Input, Textarea, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, SwitchField, Checkbox, RadioGroup, RadioGroupItem } from 'wandpress'
+
+// Text Input
+<Input placeholder="Enter title..." inputSize="default" /> {/* 'sm' | 'default' | 'lg' */}
+
+// Textarea
+<Textarea placeholder="Post excerpt..." rows={4} />
+
+// Select
+<Select defaultValue="publish">
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Status" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="publish">Published</SelectItem>
+    <SelectItem value="draft">Draft</SelectItem>
+    <SelectItem value="private">Private</SelectItem>
+  </SelectContent>
+</Select>
+
+// Toggle Switch
+<SwitchField
+  label="Maintenance Mode"
+  description="Display a splash screen to all visitors."
+  checked={maintenance}
+  onCheckedChange={setMaintenance}
+/>
+
+// Checkbox
+<div className="flex items-center gap-2">
+  <Checkbox id="sticky" checked={isSticky} onCheckedChange={setIsSticky} />
+  <label htmlFor="sticky" className="text-[13px] text-wp-text">Stick this post to the front page</label>
+</div>
+```
+
+### 8. Data Tables
+WordPress admin list table with row hovering and alignment.
+```tsx
+import {
+  Table,
+  TableWrapper,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell
+} from 'wandpress'
+
+<TableWrapper>
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Title</TableHead>
+        <TableHead>Author</TableHead>
+        <TableHead>Categories</TableHead>
+        <TableHead>Date</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableCell className="font-semibold text-wp-primary">Hello World!</TableCell>
+        <TableCell>admin</TableCell>
+        <TableCell>Uncategorized</TableCell>
+        <TableCell className="text-wp-muted text-[12px]">Published 2026/09/09</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</TableWrapper>
+```
+
+### 9. Navigation (Tabs, Topbar, Sidebar, Breadcrumb, Pagination)
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent, Pagination } from 'wandpress'
+
+// Tabs
+<Tabs defaultValue="general">
+  <TabsList>
+    <TabsTrigger value="general">General</TabsTrigger>
+    <TabsTrigger value="writing">Writing</TabsTrigger>
+    <TabsTrigger value="reading">Reading</TabsTrigger>
+  </TabsList>
+  <TabsContent value="general">General settings content</TabsContent>
+  <TabsContent value="writing">Writing settings content</TabsContent>
+</Tabs>
+
+// Pagination
+<Pagination
+  currentPage={currentPage}
+  totalPages={totalPages}
+  totalItems={48}
+  itemsPerPage={10}
+  onPageChange={(page) => setCurrentPage(page)}
+/>
+```
+
+### 10. Toasts
+```tsx
+import { useToast } from 'wandpress'
+
+function MyComponent() {
+  const { toast } = useToast()
+
+  const handleSave = () => {
+    toast({
+      title: 'Settings Saved',
+      description: 'Your changes have been saved to the database.',
+      variant: 'success', // 'default' | 'success' | 'danger' | 'warning' | 'info'
+    })
+  }
+
+  return <Button onClick={handleSave}>Save</Button>
+}
+```
+
+### 11. Full Admin Page Templates
+Pre-built, production-ready full administration screens ready to drop into your app:
+```tsx
+import { PostsTableTemplate, SettingsScreenTemplate } from 'wandpress'
+
+// Interactive Posts management view with filters, search, bulk actions, and quick edit
+<PostsTableTemplate />
+
+// Complete tabbed Settings view with toggles, form fields, and feedback toasts
+<SettingsScreenTemplate />
+```
+
+---
+
+## Best Practices for LLMs Generating WandPress Code
+
+1. Always import styles: Ensure `import 'wandpress/wandpress.css'` is present in your app layout or entry point.
+2. Consistent Spacing: WordPress admin interfaces favor dense, functional layouts:
+   - Use `bg-wp-bg` (`#f0f0f1`) as outer page canvas.
+   - Use `bg-white border border-wp-border rounded shadow-sm` for cards/panels.
+   - Text size defaults to `text-[13px]`, headings `text-[20px] font-bold text-wp-text`.
+3. Button Hierarchy:
+   - Use `<Button variant="primary">` for primary form submission / creation actions.
+   - Use `<Button variant="secondary">` for secondary actions, filters, and standard operations.
+   - Use `<Button variant="danger">` for destructive actions (Delete, Trash).
+4. Links in Buttons: When rendering an `<a>` inside a `<Button>`, always pass `asChild`:
+   ```tsx
+   <Button asChild variant="primary">
+     <a href="/target">Navigate</a>
+   </Button>
+   ```

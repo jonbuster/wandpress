@@ -6,8 +6,10 @@ import {
   ExternalLink, Star, Download, ChevronDown, ChevronRight, Bell,
   HelpCircle, FolderOpen, SlidersHorizontal, Filter, Search, Plus,
   PanelRight, CheckSquare, UploadCloud, Command as CommandIcon, Layers,
+  Sparkles,
 } from 'lucide-react'
 
+import { LLM_TXT } from './llm-txt'
 import { Button } from './components/ui/button'
 import { Badge } from './components/ui/badge'
 import { Alert } from './components/ui/alert'
@@ -62,7 +64,7 @@ function CodeBlock({ code, language = 'tsx' }: { code: string; language?: string
           {copied ? 'Copied!' : 'Copy'}
         </button>
       </div>
-      <pre className="p-4 overflow-x-auto leading-relaxed whitespace-pre-wrap">{code}</pre>
+      <pre className="p-4 overflow-x-auto leading-relaxed whitespace-pre-wrap"><code className="font-mono text-[12px]">{code}</code></pre>
     </div>
   )
 }
@@ -142,6 +144,7 @@ export default function App() {
   const [activeNav, setActiveNav] = useState('dashboard')
   const [commandOpen, setCommandOpen] = useState(false)
   const [copiedInstall, setCopiedInstall] = useState(false)
+  const [copiedLlm, setCopiedLlm] = useState(false)
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -173,6 +176,7 @@ export default function App() {
             { label: 'Components', href: '#components' },
             { label: 'Theming', href: '#theming' },
             { label: 'Installation', href: '#installation' },
+            { label: 'llm.txt', href: '#llm-txt' },
           ].map((item) => (
             <TopbarLink key={item.label} href={item.href} active={activeNav === item.href.slice(1)}>
               {item.label}
@@ -253,6 +257,8 @@ export default function App() {
             { id: 'nav',         label: 'Nav',         icon: <Users size={16} /> },
             { id: 'typography',  label: 'Typography',  icon: <Type size={16} /> },
             { id: 'theming',     label: 'Theming',     icon: <Palette size={16} /> },
+            { id: 'installation',label: 'Installation',icon: <Download size={16} /> },
+            { id: 'llm-txt',     label: 'llm.txt (AI)',icon: <Sparkles size={16} /> },
           ].map(({ id, label, icon }) => (
             <NavItem key={id}>
               <NavLink href={`#${id}`} active={activeNav === id} onClick={() => setActiveNav(id)}>
@@ -323,7 +329,7 @@ export default function App() {
                         rel="noreferrer"
                       >
                         <Download size={14} />
-                        <span>npm package</span>
+                        <span>npm v1.0.1</span>
                         <ExternalLink size={12} className="opacity-70" />
                       </a>
                     </Button>
@@ -343,6 +349,10 @@ export default function App() {
 
                     <a href="#installation" className="text-[12px] text-white/75 hover:text-white underline ml-1 transition-colors">
                       Installation Guide →
+                    </a>
+                    <span className="text-white/30">·</span>
+                    <a href="#llm-txt" className="text-[12px] text-white/75 hover:text-white underline transition-colors">
+                      llm.txt (AI Prompt) →
                     </a>
                   </div>
                 </div>
@@ -1952,6 +1962,54 @@ function MyDashboard() {
           <Divider />
 
           {/* ================================================================
+              LLM.TXT / AI AGENT CONTEXT
+              ================================================================ */}
+          <div id="llm-txt" className="scroll-mt-16">
+            <SectionHeading id="llm-txt-heading">llm.txt — AI Agent Context</SectionHeading>
+            <p className="text-[13px] text-wp-muted mb-4">
+              A structured reference document specifically optimized for Large Language Models (LLMs), Cursor, Windsurf, Claude, and ChatGPT. Pass this context into your AI assistant prompt to generate pixel-perfect WandPress components and layouts.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-2.5 mb-4">
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => {
+                  navigator.clipboard.writeText(LLM_TXT)
+                  setCopiedLlm(true)
+                  setTimeout(() => setCopiedLlm(false), 2000)
+                }}
+              >
+                {copiedLlm ? <Check size={13} /> : <Copy size={13} />}
+                <span>{copiedLlm ? 'Copied llm.txt!' : 'Copy Entire llm.txt'}</span>
+              </Button>
+              <Button asChild variant="secondary" size="sm">
+                <a href="/llm.txt" target="_blank" rel="noreferrer">
+                  <ExternalLink size={13} />
+                  <span>View Raw /llm.txt ↗</span>
+                </a>
+              </Button>
+              <Badge variant="info">llmstxt.org compatible</Badge>
+            </div>
+
+            {/* Code viewer enclosed in pre and code tag */}
+            <div className="relative group rounded-md overflow-hidden border border-wp-border-light bg-[#1d2327] text-white text-[12px] font-mono shadow-sm">
+              <div className="flex items-center justify-between px-3.5 py-2 border-b border-white/10 bg-white/5">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
+                  <span className="text-white/60 text-[11px] ml-1.5 font-mono">public/llm.txt</span>
+                </div>
+                <span className="text-[11px] text-white/40">Markdown / Plain text</span>
+              </div>
+              <pre className="p-4 max-h-[500px] overflow-y-auto leading-relaxed whitespace-pre-wrap select-text"><code className="text-emerald-300 font-mono text-[12px]">{LLM_TXT}</code></pre>
+            </div>
+          </div>
+
+          <Divider />
+
+          {/* ================================================================
               TYPOGRAPHY / HTML ELEMENTS
               ================================================================ */}
           <div id="typography">
@@ -2217,6 +2275,10 @@ function MyWidget() {
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
               <CommandShortcut>⌘S</CommandShortcut>
+            </CommandItem>
+            <CommandItem onSelect={() => { window.location.hash = '#llm-txt'; setCommandOpen(false) }}>
+              <Sparkles className="mr-2 h-4 w-4 text-emerald-400" />
+              <span>llm.txt (AI Prompt & Context)</span>
             </CommandItem>
           </CommandGroup>
           <CommandGroup heading="Components">
